@@ -1,0 +1,53 @@
+<resources>
+    <string name="app_name">SoulMath</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="example_title_onboard_screen">Eu velit ut.</string>
+
+    <string name="example_subtitle_onboard_screen">Blandit neque morbi sed auctor accumsan neque.</string>
+    <string name="example_long_text">Helooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo</string>
+    <string name="example_leaderboard_dialog_description">Kamu berada pada peringkat ke 4 nih. \n Yuk, terus tingkatkan belajarmu agar \n dapat tambahan poin XP.</string>
+
+    <string name="next">Berikutnya</string>
+    <string name="login">Masuk</string>
+    <string name="email">Email</string>
+    <string name="your_password">Your Password</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Ingat saya</string>
+    <string name="forget_password">Lupa password?</string>
+    <string name="or">atau</string>
+    <string name="login_with_google">Masuk dengan akun Google</string>
+    <string name="register">Daftar</string>
+    <string name="username">Username</string>
+    <string name="phone_number">Phone number</string>
+    <string name="your_address">Your address</string>
+    <string name="do_not_have_any_account">Tidak punya akun?</string>
+    <string name="already_have_accounts">Sudah punya akun?</string>
+    <string name="home">Beranda</string>
+    <string name="forum">Forum</string>
+    <string name="leaderboard">Peringkat</string>
+    <string name="profile">Profil</string>
+    <string name="example_greeting">Hi, Eric Alexander</string>
+    <string name="study_math_now">Yuk, belajar matematika sekarang</string>
+    <string name="your_progress_report">Laporan Kemajuanmu</string>
+    <string name="example_material_count">25</string>
+    <string name="example_xp_progress_report">2300 XP</string>
+    <string name="study">Belajar</string>
+    <string name="game">Bermain</string>
+    <string name="last_studied">Terakhir dipelajari</string>
+    <string name="information">Informasi</string>
+    <string name="ok">OK</string>
+    <string name="leaderboard_dialog_description">Kamu berada pada peringkat ke %d nih. \n Yuk, terus tingkatkan belajarmu agar \n dapat tambahan poin XP.</string>
+    <string name="xp_earned">%d XP</string>
+    <string name="xp_earned_greet">Yeyy, kamu berhasil belajar sampai selesai. Selamat kamu mendapatkan %d XP</string>
+    <string name="check_in">Check in</string>
+    <string name="other_information">Info lainnya</string>
+    <string name="material">Materi</string>
+    <string name="learning_purpose">Baca Tujuan Pembelajaran</string>
+    <string name="ready_to_study_today">Sudah siap belajar hari ini?</string>
+    <string name="daily_bonus">Bonus harian</string>
+    <string name="collect">Kumpulkan</string>
+    <string name="difficulty_easy">Level Mudah</string>
+    <string name="difficulty_medium">Level Menengah</string>
+    <string name="difficulty_hard">Level Sulit</string>
+</resources>
