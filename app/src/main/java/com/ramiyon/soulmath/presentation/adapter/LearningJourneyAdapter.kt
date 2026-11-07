@@ -3,6 +3,7 @@ package com.ramiyon.soulmath.presentation.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import com.ramiyon.soulmath.R
@@ -73,6 +74,7 @@ class LearningJourneyAdapter: BaseRecyclerViewAdapter<ItemListLearningJourneyBin
     }
 
     private fun showCrown(crownView: ImageView, isCrowned: Boolean) {
-        crownView.setImageResource(if (isCrowned) R.drawable.ic_crowned else R.drawable.ic_uncrowned)
+        val resource = if (isCrowned) R.drawable.ic_crowned else R.drawable.ic_uncrowned
+        crownView.setImageDrawable(AppCompatResources.getDrawable(crownView.context, resource))
     }
 }

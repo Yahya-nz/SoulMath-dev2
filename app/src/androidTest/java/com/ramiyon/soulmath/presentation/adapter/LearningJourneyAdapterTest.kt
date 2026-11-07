@@ -5,7 +5,7 @@ import android.graphics.Bitmap
 import android.view.ContextThemeWrapper
 import android.widget.FrameLayout
 import android.widget.ImageView
-import androidx.core.content.ContextCompat
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.graphics.drawable.toBitmap
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
@@ -56,7 +56,7 @@ class LearningJourneyAdapterTest {
 
     private fun assertCrown(context: Context, imageView: ImageView, isCrowned: Boolean) {
         val resource = if (isCrowned) R.drawable.ic_crowned else R.drawable.ic_uncrowned
-        val expected = requireNotNull(ContextCompat.getDrawable(context, resource))
+        val expected = requireNotNull(AppCompatResources.getDrawable(context, resource))
             .toBitmap(48, 48, Bitmap.Config.ARGB_8888)
         val actual = requireNotNull(imageView.drawable)
             .toBitmap(48, 48, Bitmap.Config.ARGB_8888)
