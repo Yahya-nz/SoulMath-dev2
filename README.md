@@ -1,146 +1,103 @@
-# SoulMath - Gamified Mathematics Learning App
+# SoulMath
 
-> A gamified Android educational application that transforms mathematics learning into an engaging experience through XP rewards, competitive leaderboards, and progressive difficulty levels.
+**Android mathematics learning for inclusive classrooms.**
 
-**This is a GROUP PROJECT** | Self-initiated project by Team Ramiyon
+SoulMath helps vocational high school students with intellectual disabilities practice basic mathematics through visual lessons, videos, and exercises. The project grew from educational research at Universitas Brawijaya and work with SMKN 2 Malang.
 
----
+[School implementation](https://filkom.ub.ac.id/2023/11/06/filkom-ub-hasilkan-aplikasi-untuk-pembelajaran-anak-berkebutuhan-khusus-abk-tunagrahita-di-smkn-2-malang/) · [Usability study](https://garuda.kemdiktisaintek.go.id/documents/detail/4730916) · [Build the app](#build-the-app)
 
-## Summary
+## Research and use
 
-SoulMath is an interactive mathematics learning platform that combines video-based educational content with quiz games across three difficulty tiers, featuring real-time leaderboards and an XP progression system to motivate student engagement.
+- **School implementation in 2023.** FILKOM UB reported an implementation session with 16 students on 3 August 2023. The school gave positive feedback and planned to continue using SoulMath for a year. [University report](https://filkom.ub.ac.id/2023/11/06/filkom-ub-hasilkan-aplikasi-untuk-pembelajaran-anak-berkebutuhan-khusus-abk-tunagrahita-di-smkn-2-malang/)
+- **Usability evaluation in 2024.** Yahya conducted a five-day study with nine students at SMKN 2 Malang for his undergraduate thesis. The resulting journal article reports a task success rate of 70.37% and a System Usability Scale score of 61.6. Findings include confusing navigation, insufficient interactive guidance, and an on-screen keyboard that could cover quiz questions. [Published study](https://garuda.kemdiktisaintek.go.id/documents/detail/4730916)
+- **Teaching material.** A Universitas Brawijaya UX evaluation course on Indonesia's SPADA platform features SoulMath in a usability-testing assignment. [Course material](https://lmsspada.kemdiktisaintek.go.id/course/view.php?id=3814&lang=en)
 
----
+These records describe the distributed SoulMath application and its research history. This repository contains the **dev2 Android development source**, with application ID `com.ramiyon.soulmath`. The university report links to the `com.ramiyon.soulmath_v2` distribution.
 
-## Description
+## Source overview
 
-SoulMath addresses the declining interest in mathematics among students by transforming traditional learning into a game-like experience. The application integrates structured learning journeys with video materials, interactive quizzes, and a comprehensive reward system. Students earn experience points (XP) through completing lessons and games, compete on global leaderboards, and unlock new content as they progress—creating a self-sustaining cycle of motivation and achievement.
+| Area | What is present in this checkout |
+| --- | --- |
+| Account | Registration, sign-in, and profile screens |
+| Learning | Learning journeys, material onboarding, video playback, and XP rewards |
+| Progress | Module progress, difficulty crowns, and leaderboard screens |
+| Quizzes | Easy, medium, and hard layouts with early activity implementations |
 
-The app employs Clean Architecture with MVVM pattern, ensuring scalability and maintainability while delivering smooth user experiences across Android devices (SDK 21+).
+Quiz development is still in progress. The easy activity loads the first question, the medium activity has unfinished loading and success callbacks, and the hard activity has pending question-binding callbacks. Completing those flows will make it possible to reproduce and test the keyboard finding against this source version.
 
----
+## Build the app
 
-## Challenge
+The source uses Kotlin, Android Views with XML and ViewBinding, MVVM, Koin, Retrofit, Firebase, Room, and ExoPlayer.
 
-Our client envisioned an educational app that could compete with entertainment apps for students' attention. The primary challenges we faced included:
+| Requirement | Version |
+| --- | --- |
+| JDK for Gradle | 11 |
+| Gradle wrapper | 7.4 |
+| Android Gradle Plugin | 7.3.0 |
+| Kotlin | 1.7.10 |
+| Android compile and target SDK | 33 |
+| Android minimum SDK | 21 |
+| Default SDK Build Tools for AGP 7.3 | 30.0.3 |
 
-**Client Requirements:** The client requested a fully gamified learning experience with real-time competitive features, video streaming capabilities, and offline support—all within a tight development timeline. Balancing feature richness with performance optimization required careful architectural decisions.
+Gradle 7.4 and JDK 11 match the Android plugin's documented toolchain. [Android compatibility reference](https://developer.android.com/build/releases/agp-7-3-0-release-notes)
 
-**Technical Complexity:** Implementing encrypted local storage (SQLCipher) while maintaining sync with Firebase required building a robust multi-layer data management system. Integrating ExoPlayer with custom reward triggers and handling various network states added significant complexity to the video playback feature.
+1. Clone the repository and open its root in Android Studio.
 
----
+   ```sh
+   git clone https://github.com/Yahya-nz/SoulMath-dev2.git
+   cd SoulMath-dev2
+   ```
 
-## Problem Statement
+2. Set the project's Gradle JDK to **11**. Install Android 13 / API 33 and SDK Build-Tools 30.0.3 with SDK Manager.
+3. Set the SDK path through Android Studio or a local `local.properties` file containing `sdk.dir=/path/to/Android/sdk`.
+4. Configure Firebase for application ID `com.ramiyon.soulmath` and use the matching `app/google-services.json`.
+5. Configure a compatible backend in `app/src/main/java/com/ramiyon/soulmath/data/di/DataModule.kt`. API contracts are defined in `data/source/remote/api/ApiService.kt`. Account, learning, and progress features rely on that service.
+6. Build a debug APK.
 
-Traditional math learning applications often fail to sustain student engagement. Students complete initial lessons but quickly abandon the app due to monotonous interfaces and lack of motivation. The absence of social/competitive elements makes learning feel isolated, and rigid content structures don't adapt to individual progress levels—resulting in both frustrated beginners and bored advanced learners.
+   ```sh
+   ./gradlew :app:assembleDebug
+   ```
 
----
+The APK is written to `app/build/outputs/apk/debug/app-debug.apk`. The first Gradle run downloads the wrapper distribution and project dependencies.
 
-## Design Process
+## Verify changes
 
-Our approach began with user research among target students (ages 10-16) to understand their gaming habits and learning preferences. We mapped the customer journey from onboarding to daily engagement, identifying key moments where gamification could boost retention.
+Run the unit tests, lint, and debug build with the configured JDK, SDK, and network access to dependency repositories.
 
-We adopted Clean Architecture to separate concerns across data, domain, and presentation layers. The team utilized collaborative Git workflows with feature branching, code reviews, and continuous integration. UI/UX decisions prioritized intuitive navigation with Material Design principles while incorporating playful elements that resonate with younger audiences.
-
----
-
-## Solution
-
-SoulMath delivers a comprehensive gamified learning ecosystem:
-
-**Progressive Learning Journeys** — Structured modules with video lessons that unlock sequentially, ensuring foundational concepts are mastered before advancing. Each completed material rewards XP and tracks progress visually.
-
-**Three-Tier Game System** — Quiz games across Easy, Medium, and Hard difficulties with image-supported questions. The landscape-optimized interface provides immersive gameplay while reinforcing learned concepts.
-
-**Competitive Leaderboards** — Real-time rankings foster healthy competition among students. The global leaderboard displays XP standings, motivating continuous engagement and improvement.
-
-**Daily Bonus System** — Calendar-based daily rewards encourage consistent app usage. Students receive bonus XP for check-ins, building habitual learning patterns.
-
-**Secure User Profiles** — Firebase Authentication with encrypted local storage (SQLCipher) protects student data while DataStore manages preferences. Profile customization with avatars adds personalization.
-
----
-
-## Impact & Results
-
-The gamification approach demonstrated measurable improvements in user engagement metrics during testing phases. Students showed increased daily active usage compared to traditional learning apps, with the leaderboard feature driving particularly strong retention among competitive users. The XP system created clear progress visibility that motivated lesson completion rates.
-
-**Key Learnings:** This project deepened our understanding of balancing educational value with entertainment elements. We learned that gamification works best when rewards feel meaningful and progress is clearly visualized. Implementing Clean Architecture proved invaluable for managing complexity as features expanded, and our Git workflow significantly reduced integration conflicts in parallel development.
-
----
-
-## Technologies Used
-
-| Layer | Technologies |
-|-------|-------------|
-| **Language** | Kotlin 1.7.10 |
-| **Architecture** | MVVM, Clean Architecture, Repository Pattern |
-| **Dependency Injection** | Koin 3.3.0 |
-| **Backend Services** | Firebase (Auth, Firestore, Storage, Analytics) |
-| **Networking** | Retrofit 2.9.0, OkHttp 5.0.0-alpha, Gson |
-| **Local Database** | Room 2.4.3 + SQLCipher 4.5.0 (Encryption) |
-| **Async Operations** | Kotlin Coroutines, Flow, LiveData |
-| **Media Playback** | ExoPlayer 2.18.1 |
-| **UI Components** | Material Design, Navigation Component, ViewBinding |
-| **Image Loading** | Glide 4.13.0 |
-| **Animations** | Lottie 4.2.2, Shimmer Effects |
-| **Version Control** | Git with GitFlow branching strategy |
-
----
-
-## Features & Usage
-
-### Authentication
-Launch the app and register with email/password or sign in with Google. The "Remember Me" option keeps you logged in for convenience.
-
-### Home Dashboard
-The main hub displays your current XP, learning journey progress, and available modules. Tap any unlocked module to begin learning or access games.
-
-### Learning Materials
-Select a learning journey to view available materials. Watch video lessons in full-screen landscape mode—XP is automatically awarded upon completion. Progress is saved locally and synced to the cloud.
-
-### Quiz Games
-Choose your difficulty level (Easy/Medium/Hard) and answer multiple-choice questions. Questions may include images for visual problems. Track your score and earn XP based on performance.
-
-### Leaderboard
-Access the leaderboard from the bottom navigation to view global rankings. Your current rank is highlighted, showing XP standings against other students.
-
-### Daily Bonus
-Check in daily to claim bonus XP. The calendar view tracks your streak and rewards consistent engagement.
-
-### Profile
-Customize your avatar, update personal information, and view your XP history and learning statistics.
-
----
-
-## Team & Roles
-
-| Name | Role |
-|------|------|
-| **Yahya** | Testing User & Evaluation |
-| **Dhamar Santi Kusuma Wardani** | UI/UX Designer |
-| **Kylix Eza Saputra** | UI/UX Designer & Android Developer |
-| **Nanda Safira** | Curriculum & Researcher |
-
----
-
-## My Contribution
-
-As **Testing User & Evaluation**, I was responsible for conducting comprehensive user testing sessions and evaluating the application's usability across different user scenarios. I designed test cases, documented bug reports, and provided actionable feedback to the development team. My systematic evaluation process directly improved the user experience by identifying friction points in the learning flow and game mechanics, ensuring the final product met both functional requirements and user expectations.
-
----
-
-## Build & Run
-
-```bash
-# Clone repository
-git clone https://github.com/Yahya-nz/SoulMath-dev2.git
-
-# Open in Android Studio (Arctic Fox or newer)
-# Sync Gradle dependencies
-# Configure Firebase (add google-services.json)
-# Run on device/emulator (min SDK 21)
+```sh
+./gradlew :app:testDebugUnitTest :app:lintDebug :app:assembleDebug
 ```
 
----
+For device tests, connect an Android device or start an emulator before running the following command.
 
-**Target SDK:** 33 (Android 13) | **Min SDK:** 21 (Android 5.0) | **Build Tool:** Gradle 7.3.0
+```sh
+./gradlew :app:connectedDebugAndroidTest
+```
+
+For learning-progress changes, check a locked module, an unlocked module, and mixed easy / medium / hard completion states. Scroll away and back to check that recycled rows display the current progress.
+
+## Research priorities
+
+The usability findings provide concrete work for future contributions.
+
+- Complete the quiz answer and question-advance flows, then reproduce the keyboard problem on small landscape screens.
+- Keep the question readable while a student enters an answer and add a regression test for that behavior.
+- Improve navigation and interactive guidance, including visual and audio cues.
+- Evaluate XP requirements with teachers and students before changing progression rules.
+
+A contribution should include the affected screen, reproduction steps, device or emulator details, and the checks performed.
+
+## Team and contribution
+
+| Contributor | Role recorded for this project |
+| --- | --- |
+| Yahya | Usability testing and evaluation |
+| Dhamar Santi Kusuma Wardani | UI/UX design |
+| Kylix Eza Saputra | UI/UX design and Android development |
+| Nanda Safira | Curriculum and research |
+
+Yahya designed test scenarios, observed students using the app, collected interviews and SUS responses, and documented recommendations in his thesis and subsequent journal publication. The publication lists him as **Yakhya Nahnul Saputro**. [Research record](https://garuda.kemdiktisaintek.go.id/documents/detail/4730916)
+
+## License
+
+This repository is distributed under the [Apache License 2.0](LICENSE).

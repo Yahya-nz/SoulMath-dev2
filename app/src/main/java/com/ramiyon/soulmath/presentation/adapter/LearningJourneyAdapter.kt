@@ -2,9 +2,10 @@ package com.ramiyon.soulmath.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
-import com.bumptech.glide.Glide
 import com.ramiyon.soulmath.R
 import com.ramiyon.soulmath.base.BaseRecyclerViewAdapter
 import com.ramiyon.soulmath.databinding.IncludeSubModuleProgressBarBinding
@@ -25,7 +26,7 @@ class LearningJourneyAdapter: BaseRecyclerViewAdapter<ItemListLearningJourneyBin
             if(item.isModuleUnlocked)
                 callGlide(itemView!!.context, item.moduleIconUnlocked, ivModuleIcon)
             else
-                callGlide(itemView!!.context, item.moduleIconUnlocked, ivModuleIcon)
+                callGlide(itemView!!.context, item.moduleIconLocked, ivModuleIcon)
             
             ivModuleIcon.setOnClickListener {
                 if(item.isModuleUnlocked)
@@ -65,17 +66,15 @@ class LearningJourneyAdapter: BaseRecyclerViewAdapter<ItemListLearningJourneyBin
                 callGlide(itemView!!.context, item.moduleIconLocked, ivSubModuleIcon)
             }
             apbSubModule.progress = subModuleByPosition.gamePercentage.toInt()
-            crowningSubModule { subModuleByPosition.isDifficultiesCrowned.easy }
-            crowningSubModule { subModuleByPosition.isDifficultiesCrowned.medium }
-            crowningSubModule { subModuleByPosition.isDifficultiesCrowned.hard }
+            showCrown(ivSubModuleFirstCrown, subModuleByPosition.isDifficultiesCrowned.easy)
+            showCrown(ivSubModuleSecondCrown, subModuleByPosition.isDifficultiesCrowned.medium)
+            showCrown(ivSubModuleThirdCrown, subModuleByPosition.isDifficultiesCrowned.hard)
             tvTitleSubModule.text = subModuleByPosition.subModuleTitle
         }
     }
 
-    private fun IncludeSubModuleProgressBarBinding.crowningSubModule(condition: () -> Boolean) {
-        if(condition())
-            callGlide(itemView!!.context, R.drawable.ic_crowned, ivSubModuleFirstCrown)
-        else
-            callGlide(itemView!!.context, R.drawable.ic_uncrowned, ivSubModuleFirstCrown)
+    private fun showCrown(crownView: ImageView, isCrowned: Boolean) {
+        val resource = if (isCrowned) R.drawable.ic_crowned else R.drawable.ic_uncrowned
+        crownView.setImageDrawable(AppCompatResources.getDrawable(crownView.context, resource))
     }
 }
